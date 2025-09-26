@@ -1,0 +1,58 @@
+# Configuration file for fundus image segmentation
+
+# Model Configuration
+MODEL:
+  name: "UNet"
+  n_channels: 3
+  n_classes: 2
+  bilinear: true
+  
+# Training Configuration  
+TRAINING:
+  batch_size: 4
+  image_size: 512
+  learning_rate: 0.001
+  num_epochs: 100
+  num_workers: 2
+  
+# Loss Configuration
+LOSS:
+  type: "combined"  # Options: "bce", "dice", "combined"
+  bce_weight: 0.5
+  dice_weight: 0.5
+  
+# Data Augmentation
+AUGMENTATION:
+  horizontal_flip: 0.5
+  vertical_flip: 0.5
+  random_rotation: 0.5
+  brightness_contrast: 0.5
+  hue_saturation: 0.5
+  gaussian_noise: 0.3
+  blur: 0.3
+  
+# Optimization
+OPTIMIZER:
+  type: "Adam"  # Options: "Adam", "SGD", "AdamW"
+  weight_decay: 0.0001
+  
+# Scheduler
+SCHEDULER:
+  type: "ReduceLROnPlateau"  # Options: "ReduceLROnPlateau", "CosineAnnealingLR", "StepLR"
+  factor: 0.5
+  patience: 5
+  min_lr: 0.00001
+  
+# Evaluation
+EVALUATION:
+  threshold: 0.5
+  save_predictions: true
+  save_visualizations: true
+  
+# Paths
+PATHS:
+  data_dir: "dataset"
+  output_dir: "outputs"
+  checkpoints_dir: "outputs/checkpoints"
+  logs_dir: "outputs/logs"
+  results_dir: "outputs/results"
