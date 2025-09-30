@@ -35,6 +35,11 @@ ipywidgets>=7.6.0
 segmentation-models-pytorch>=0.2.0
 monai>=0.9.0
 
+# FastAPI
+fastapi>=0.70.0
+uvicorn>=0.15.0
+python-multipart
+
 # Optional GPU acceleration
 # Uncomment if using CUDA
 # torch-audio
