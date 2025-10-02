@@ -26,8 +26,8 @@ class DiceLoss(nn.Module):
         predictions = predictions[:, 1, :, :]  # Get foreground predictions
         
         # Flatten tensors
-        predictions = predictions.view(-1)
-        targets = targets.view(-1)
+        predictions = predictions.reshape(-1)
+        targets = targets.reshape(-1)
         
         # Calculate dice coefficient
         intersection = (predictions * targets).sum()
@@ -72,8 +72,8 @@ def calculate_metrics(predictions, targets, threshold=0.5):
         preds = (probs[:, 1, :, :] > threshold).float()
         
         # Flatten tensors
-        preds_flat = preds.view(-1)
-        targets_flat = targets.view(-1)
+        preds_flat = preds.reshape(-1)
+        targets_flat = targets.reshape(-1)
         
         # Calculate metrics
         intersection = (preds_flat * targets_flat).sum()
@@ -120,9 +120,15 @@ class Trainer:
         # Loss function and optimizer
         self.criterion = CombinedLoss()
         self.optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=1e-4)
-        self.scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-            self.optimizer, mode='min', factor=0.5, patience=5, verbose=True
-        )
+        # Some PyTorch versions don't support the 'verbose' kwarg; guard for compatibility
+        try:
+            self.scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+                self.optimizer, mode='min', factor=0.5, patience=5, verbose=True
+            )
+        except TypeError:
+            self.scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+                self.optimizer, mode='min', factor=0.5, patience=5
+            )
         
         # Logging
         self.writer = SummaryWriter(log_dir)
