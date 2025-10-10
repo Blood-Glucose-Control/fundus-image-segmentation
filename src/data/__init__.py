@@ -63,10 +63,20 @@ class FundusDataset(Dataset):
             augmented = self.transform(image=image, mask=mask)
             image = augmented['image']
             mask = augmented['mask']
-        
-        # Convert mask to binary (0 or 1)
-        mask = (mask > 127).astype(np.float32)
-        
+
+        # Ensure mask is a binary torch tensor (0/1) regardless of source type
+        mask = torch.as_tensor(mask)
+        mask = mask.float()
+        # Choose threshold based on value range: if already 0..1, use 0.5; if 0..255, use 127
+        max_val = float(mask.max().item()) if mask.numel() > 0 else 0.0
+        thr = 0.5 if max_val <= 1.0 else 127.0
+        mask = (mask > thr).float()
+
+        # Make sure image is a torch tensor (albumentations ToTensorV2 already returns a tensor)
+        if not isinstance(image, torch.Tensor):
+            # Convert HWC numpy to CHW tensor in range [0,1]
+            image = torch.from_numpy(image.transpose(2, 0, 1)).float() / 255.0
+
         return image, mask
 
 def get_train_transform(image_size=512):
