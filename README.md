@@ -5,9 +5,11 @@ This repository contains work in progress on **predicting diabetic retinopathy p
 
 **“Predicting Diabetic Retinopathy Progression with Time-Series Databases and Deep Learning.”**
 ---
-### Our current Kaggle Notebook being used
+#### Our current Kaggle Notebook being used
+
 
 Notebook: [Link](https://www.kaggle.com/code/sunfish141/unet-for-diabetic-retinopathy)
+
 ---
 
 ### Teams
