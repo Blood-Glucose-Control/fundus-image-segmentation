@@ -4,6 +4,7 @@
 This repository contains work in progress on **predicting diabetic retinopathy progression** using segmentation and model blending techniques. The project is moving toward a paper tentatively titled:
 
 **“Predicting Diabetic Retinopathy Progression with Time-Series Databases and Deep Learning.”**
+
 ---
 #### Our current Kaggle Notebook being used
 - Notebook: [Link](https://www.kaggle.com/code/sunfish141/unet-for-diabetic-retinopathy)
